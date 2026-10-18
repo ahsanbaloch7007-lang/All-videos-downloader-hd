@@ -22,12 +22,11 @@ jobs:
         run: |
           keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
           cp debug.keystore app/debug.keystore || true
-          ls -la debug.keystore
       - name: Build APK
         run: gradle :app:assembleDebug --no-daemon
       - name: Publish APK
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp app/build/outputs/apk/debug/app-debug.apk /tmp/app-final.apk
-          gh release create final-${{ github.run_number }} /tmp/app-final.apk --title "Final APK - Earning ON" --notes "Real AdMob - Ready to Install" --latest
+          cp app/build/outputs/apk/debug/app-debug.apk /tmp/app-Earning-ON-${{ github.run_number }}.apk
+          gh release create final-${{ github.run_number }} /tmp/app-Earning-ON-${{ github.run_number }}.apk --title "Final APK - Earning ON - ${{ github.run_number }}" --notes "Real AdMob - Ready to Install - Today" --latest
