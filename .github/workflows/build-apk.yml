@@ -1,19 +1,14 @@
 name: Build & Publish Debug APK
-
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: write
-
 jobs:
   build:
     name: Build & Publish Debug APK
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,11 +19,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Verify Java environment
-        run: |
-          java -version
-          echo "JAVA_HOME: $JAVA_HOME"
-
       - name: Set up Gradle 9.3.1
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -37,24 +27,14 @@ jobs:
       - name: Create temporary debug keystore
         run: |
           if [ ! -f "./debug.keystore" ]; then
-            keytool -genkeypair \
-              -v \
-              -keystore ./debug.keystore \
-              -storepass android \
-              -alias androiddebugkey \
-              -keypass android \
-              -keyalg RSA \
-              -keysize 2048 \
-              -validity 10000 \
-              -dname "CN=Android Debug,O=Android,C=US"
+            keytool -genkeypair -v -keystore ./debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
           fi
 
       - name: Build the debug APK
         run: gradle :app:assembleDebug --stacktrace --no-daemon
 
       - name: Verify the APK
-        run: |
-          ls -lh app/build/outputs/apk/debug/app-debug.apk
+        run: ls -lh app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload debug APK artifact
         uses: actions/upload-artifact@v4
@@ -66,23 +46,24 @@ jobs:
       - name: Prepare APK release asset
         id: prepare_asset
         run: |
-          TEMP_ASSET_DIR="${{ runner.temp }}/apk-release-asset"
-          mkdir -p "$TEMP_ASSET_DIR"
-          RAW_REPO_NAME="${{ github.event.repository.name }}"
-          SANITIZED_REPO=$(echo "$RAW_REPO_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9._-]/-/g')
-          ASSET_FILENAME="${SANITIZED_REPO}-debug-build-${{ github.run_number }}.apk"
-          TARGET_ASSET_PATH="${TEMP_ASSET_DIR}/${ASSET_FILENAME}"
-          cp "app/build/outputs/apk/debug/app-debug.apk" "$TARGET_ASSET_PATH"
-          echo "asset_path=$TARGET_ASSET_PATH" >> "$GITHUB_OUTPUT"
-          echo "asset_name=$ASSET_FILENAME" >> "$GITHUB_OUTPUT"
+          mkdir -p "${{ runner.temp }}/apk-release-asset"
+          REPO=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9._-]/-/g')
+          ASSET="${REPO}-debug-build-${{ github.run_number }}.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "${{ runner.temp }}/apk-release-asset/${ASSET}"
+          echo "asset_path=${{ runner.temp }}/apk-release-asset/${ASSET}" >> "$GITHUB_OUTPUT"
+          echo "asset_name=${ASSET}" >> "$GITHUB_OUTPUT"
 
       - name: Publish APK to GitHub Releases
+        id: publish_release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          ASSET_PATH="${{ steps.prepare_asset.outputs.asset_path }}"
-          TAG_NAME="debug-apk-build-${{ github.run_number }}"
-          gh release create "$TAG_NAME" "$ASSET_PATH" --title "Debug APK Build #${{ github.run_number }}" --latest --notes "Debug build"
+          gh release create debug-apk-build-${{ github.run_number }}-${{ github.run_attempt }} "${{ steps.prepare_asset.outputs.asset_path }}" --title "Debug APK Build #${{ github.run_number }}" --latest --notes "Final Build #${{ github.run_number }} | Asset: ${{ steps.prepare_asset.outputs.asset_name }} | Earning Ads | Install Ready"
 
-      - name: Build Done
-        run: echo "APK Ready - Download from Releases"
+      - name: Report APK download result
+        if: always()
+        run: |
+          echo "Build Success: ${{ steps.prepare_asset.outputs.asset_name }}"
+          echo "## :rocket: APK Published" >> $GITHUB_STEP_SUMMARY
+          echo "File: ${{ steps.prepare_asset.outputs.asset_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "Build #${{ github.run_number }} Ready for Install & Publish" >> $GITHUB_STEP_SUMMARY
