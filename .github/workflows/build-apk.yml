@@ -17,7 +17,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.7'
+          gradle-version: '9.3.1'
       - name: Build APK
         run: gradle :app:assembleDebug --no-daemon
       - name: Publish APK
@@ -25,4 +25,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cp app/build/outputs/apk/debug/app-debug.apk /tmp/app-final.apk
-          gh release create final-${{ github.run_number }} /tmp/app-final.apk --title "Final APK" --notes "Ready to Install - Earning Ads" --latest --overwrite
+          gh release create final-${{ github.run_number }} /tmp/app-final.apk --title "Final APK - Earning ON" --notes "Real AdMob - Ready to Install" --latest --overwrite
