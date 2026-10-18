@@ -54,8 +54,8 @@ object AdManager {
     private var startAppInterstitial: StartAppAd? = null
     private var isStartAppLoading = false
 
-    // Default to test ads during development for compliance; can be toggled by developer
-    var useTestAds: Boolean = true
+    // Real production earning ads enabled
+    var useTestAds: Boolean = false
 
     private val _adStatus = MutableStateFlow(AdStatus(isTestMode = useTestAds))
     val adStatus: StateFlow<AdStatus> = _adStatus.asStateFlow()
