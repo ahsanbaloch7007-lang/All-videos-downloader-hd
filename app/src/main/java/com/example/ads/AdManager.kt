@@ -29,7 +29,7 @@ data class AdStatus(
     val startAppInitialized: Boolean = false,
     val startAppLoaded: Boolean = false,
     val startAppLastError: String? = null,
-    val isTestMode: Boolean = true,
+    val isTestMode: Boolean = false,
     val totalImpressions: Int = 0
 )
 
