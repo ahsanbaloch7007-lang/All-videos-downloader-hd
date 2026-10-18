@@ -1,0 +1,77 @@
+<resources>
+    <string name="app_name">All Video Downloader</string>
+    <string name="app_tagline">HD Video Saver</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_browser">Browser</string>
+    <string name="nav_downloads">Downloads</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home Screen -->
+    <string name="home_hero_title">Fast &amp; Free Video Saver</string>
+    <string name="home_hero_subtitle">Paste direct video URL or browse to download HD videos</string>
+    <string name="input_url_placeholder">Paste video URL here (e.g. https://...)</string>
+    <string name="btn_paste">Paste</string>
+    <string name="btn_clear">Clear</string>
+    <string name="btn_fetch_video">Analyze &amp; Download</string>
+    <string name="btn_quick_download">Download Now</string>
+    <string name="recent_downloads">Recent Downloads</string>
+    <string name="view_all">View All</string>
+    <string name="no_recent_downloads">No downloads yet. Paste a link or browse to start!</string>
+    <string name="supported_sites_notice">Supports direct MP4, WEBM, MKV, and direct media URLs. Does not bypass DRM or protected streams.</string>
+
+    <!-- Browser Screen -->
+    <string name="browser_search_hint">Search or enter website address</string>
+    <string name="browser_media_detected">Video Detected!</string>
+    <string name="browser_download_video">Download Detected Media</string>
+    <string name="browser_quick_links">Quick Sites</string>
+
+    <!-- Downloads Screen -->
+    <string name="downloads_title">Download Manager</string>
+    <string name="tab_all">All</string>
+    <string name="tab_active">Downloading</string>
+    <string name="tab_completed">Completed</string>
+    <string name="empty_downloads_title">No Videos Found</string>
+    <string name="empty_downloads_desc">Your downloaded videos will appear here. Start downloading by pasting a link or browsing.</string>
+    <string name="status_pending">Queued</string>
+    <string name="status_downloading">Downloading…</string>
+    <string name="status_paused">Paused</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_failed">Failed</string>
+    <string name="status_cancelled">Cancelled</string>
+
+    <!-- Video Actions -->
+    <string name="action_play">Play</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_resume">Resume</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_share">Share</string>
+    <string name="action_details">Details</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_general">General Preferences</string>
+    <string name="settings_theme">Dark Mode</string>
+    <string name="settings_theme_desc">Switch between light and dark themes</string>
+    <string name="settings_clipboard">Auto-detect Clipboard Link</string>
+    <string name="settings_clipboard_desc">Prompt to download when a video link is copied</string>
+    <string name="settings_wifi_only">Download on Wi-Fi Only</string>
+    <string name="settings_wifi_only_desc">Save mobile data by downloading only when connected to Wi-Fi</string>
+    <string name="settings_storage">Storage Location</string>
+    <string name="settings_storage_desc">Movies / VideoSaver folder</string>
+    <string name="settings_monetization">Ad Networks &amp; Monetization</string>
+    <string name="settings_admob_status">Google AdMob Status</string>
+    <string name="settings_startapp_status">StartApp Network Status</string>
+    <string name="settings_about">About &amp; Privacy</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_terms">Terms of Service</string>
+    <string name="settings_version">Version 1.0 (Build 1)</string>
+
+    <!-- Dialogs and Notifications -->
+    <string name="dialog_download_options">Download Options</string>
+    <string name="dialog_delete_confirm">Delete this downloaded video?</string>
+    <string name="notification_channel_name">Video Downloads</string>
+    <string name="notification_channel_desc">Notifications for download progress and completion</string>
+</resources>
